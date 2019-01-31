@@ -67,4 +67,11 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.get('/app/:id', checkUserAuth, findApp, renderView, sendJSON);
+
+function checkUserAuth(req, res, next) {
+  if (req.session.user) return next();
+  return next(new NotAuthorizedError());
+}
+
 module.exports = app;
